@@ -102,86 +102,93 @@ class _OTPLoginState extends State<OTPLogin> {
                   //           image: AssetImage('assets/LogoText.png'),
                   //           fit: BoxFit.fitWidth),
                   //     )),
-                  Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Center(
-                          child: Text(
-                            "Enter your mobile number",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    elevation: 10,
+                    margin: EdgeInsets.all(30),
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Center(
+                            child: Text(
+                              "Enter your mobile number",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Center(
-                          child: Text(
-                            "We need to text you the OTP to authenticate your account",
-                            style:
-                                TextStyle(fontSize: 12, color: Colors.black45),
+                          SizedBox(
+                            height: 10,
                           ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 04, vertical: 22),
-                          child: IntlPhoneField(
-                            decoration: InputDecoration(
-                              labelText: 'Phone Number',
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: secondaryColor,
+                          Center(
+                            child: Text(
+                              "We need to text you the OTP to authenticate your account",
+                              style: TextStyle(
+                                  fontSize: 12, color: Colors.black45),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 04, vertical: 22),
+                            child: IntlPhoneField(
+                              decoration: InputDecoration(
+                                labelText: 'Phone Number',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: secondaryColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                            initialCountryCode: 'IN',
-                            validator: (value) {
-                              return value.isEmpty || value.length < 10
-                                  ? 'Enter valid phone number'
-                                  : null;
-                            },
-                            focusNode: _focusNode,
-                            // onChanged: (value) {
+                              initialCountryCode: 'IN',
+                              validator: (value) {
+                                return value.isEmpty || value.length < 10
+                                    ? 'Enter valid phone number'
+                                    : null;
+                              },
+                              focusNode: _focusNode,
+                              // onChanged: (value) {
 
-                            // },
-                            onSaved: (phone) => _pass = phone.completeNumber,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            "By continuing, you accept the Privacy Policy and Terms of Service. An SMS may be sent to you with the OTP to verify your number. SMS and data may apply.",
-                            style: TextStyle(
-                              color: Colors.black38,
-                              fontSize: 10,
+                              // },
+                              onSaved: (phone) => _pass = phone.completeNumber,
                             ),
                           ),
-                        ),
-                        isLoading == true
-                            ? Column(
-                                children: [
-                                  CircularProgressIndicator(),
-                                ],
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  CircularProgressIndicator();
-                                  // setState(() {
-                                  //   isLoading = true;
-                                  // });
-                                  _submit();
-                                  // setState(() {
-                                  //   isLoading = false;
-                                  // });
-                                },
-                                child: button(context, "Send OTP")),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              "By continuing, you accept the Privacy Policy and Terms of Service. An SMS may be sent to you with the OTP to verify your number. SMS and data may apply.",
+                              style: TextStyle(
+                                color: Colors.black38,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                          isLoading == true
+                              ? Column(
+                                  children: [
+                                    CircularProgressIndicator(),
+                                  ],
+                                )
+                              : InkWell(
+                                  onTap: () {
+                                    CircularProgressIndicator();
+                                    // setState(() {
+                                    //   isLoading = true;
+                                    // });
+                                    _submit();
+                                    // setState(() {
+                                    //   isLoading = false;
+                                    // });
+                                  },
+                                  child: button(context, "Send OTP")),
+                        ],
+                      ),
                     ),
                   ),
                 ],
