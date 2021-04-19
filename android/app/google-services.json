@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "596368352734",
+    "project_id": "schoolar-82185",
+    "storage_bucket": "schoolar-82185.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596368352734:android:c61ced2cf139af531d694f",
+        "android_client_info": {
+          "package_name": "com.razzo.schoolar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596368352734-u1pd6ha7777tv7eif2lr8fu8a4bfp3di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM2-pG4yvOvKhgqzM1859Li_9xMhOl21A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596368352734-u1pd6ha7777tv7eif2lr8fu8a4bfp3di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
