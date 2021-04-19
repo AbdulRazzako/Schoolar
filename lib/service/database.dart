@@ -8,7 +8,17 @@ class UserDatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future newStudentDetails(
-      {String username, String email, String rollno, String role}) {}
+      {String username, String email, String rollno, String role}) async {
+    return _db.collection("student").doc(uid).set({
+      "uid": uid,
+      "lastSignIn": DateTime.now(),
+      "name": username,
+      "email": email,
+      "rollNo": rollno,
+      "role": role,
+    }, SetOptions(merge: true));
+  }
+
   Future phoneLogin(String phoneNo) async {
     return _db.collection("student").doc(uid).set({
       "uid": uid,

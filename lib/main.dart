@@ -6,7 +6,7 @@ import 'package:schoolar/home.dart';
 // import 'package:schoolar/screens/inroduction/introduction.dart';
 import 'package:schoolar/service/auth.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'screens/authenticate/sign_in.dart';
+// import 'screens/authenticate/sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
