@@ -48,8 +48,10 @@ class AuthService extends AuthBase {
       try {
         final UserCredential userCredential =
             await _auth.signInWithCredential(credential);
-
         user = userCredential.user;
+
+        await UserDatabaseService(uid: user.uid).googleUser(
+            name: user.displayName, email: user.email, role: student);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           // handle the error here

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schoolar/config/config.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:schoolar/screens/authenticate/forgetpass.dart';
 import 'package:schoolar/screens/authenticate/optlogin.dart';
 import 'package:schoolar/screens/authenticate/sign_up.dart';
 import 'package:schoolar/service/auth.dart';
@@ -121,7 +122,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   Center(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => ForgotPass()),
+                        );
+                      },
                       child: new Text(
                         'Forgot Password',
                         style: TextStyle(color: Colors.grey),
@@ -141,14 +146,6 @@ class _SignInScreenState extends State<SignInScreen> {
                           },
                           child: button(context, 'Sign In'),
                         ),
-                  // MaterialButton(
-                  //   height: 50,
-                  //   color: Colors.blue,
-                  //   onPressed: () {},
-                  //   child: Text('LOGIN'),
-                  //   shape: RoundedRectangleBorder(
-                  //       borderRadius: new BorderRadius.circular(30)),
-                  // ),
                   SizedBox(
                     height: 10,
                   ),

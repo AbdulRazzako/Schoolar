@@ -19,6 +19,16 @@ class UserDatabaseService {
     }, SetOptions(merge: true));
   }
 
+  Future googleUser({String name, String email, String role}) async {
+    return _db.collection("student").doc(uid).set({
+      "uid": uid,
+      "lastSignIn": DateTime.now(),
+      "name": name,
+      "email": email,
+      "role": role
+    }, SetOptions(merge: true));
+  }
+
   Future phoneLogin(String phoneNo) async {
     return _db.collection("student").doc(uid).set({
       "uid": uid,
