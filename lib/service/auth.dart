@@ -189,15 +189,26 @@ class AuthService extends AuthBase {
         });
   }
 
-  Future registerStudentWithEmailPass(
-      username, email, password, rollno, _scafKey) async {
+  Future registerStudentWithEmailPass({
+    username,
+    email,
+    password,
+    school,
+    classno,
+    rollno,
+  }) async {
     const String role = student;
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
       await UserDatabaseService(uid: user.uid).newStudentDetails(
-          username: username, email: email, rollno: rollno, role: student);
+          username: username,
+          email: email,
+          school: school,
+          classno: classno,
+          rollno: rollno,
+          role: student);
       return AuthService(role: role)._userFromFirebase(user);
     } catch (error) {
       switch (error.code) {

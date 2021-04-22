@@ -1,3 +1,6 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolar/config/config.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -13,7 +16,21 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   // String _pass;
+  //
+  List<String> classno = <String>[
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+  ];
 
+  var schoolSelected, classSelected;
   final _formKey = GlobalKey<FormState>();
   final _scafKey = GlobalKey<ScaffoldState>();
   bool isLoading = false;
@@ -38,7 +55,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
     try {
       dynamic result = await _auth.registerStudentWithEmailPass(
-          _username, _email, _password, _rollno, _scafKey);
+          username: _username,
+          email: _email,
+          password: _password,
+          rollno: _rollno,
+          school: schoolSelected,
+          classno: classSelected);
       if (result == null) {
         print('error signing in');
       } else {
@@ -145,22 +167,89 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(
                     height: 10,
                   ),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  //dropdown for class
+                  //
+                  //
+
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('schools')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Text('loading');
+                      } else {
+                        List<DropdownMenuItem> schoolitem = [];
+                        for (int i = 0; i < snapshot.data.docs.length; i++) {
+                          DocumentSnapshot snap = snapshot.data.docs[i];
+                          schoolitem.add(DropdownMenuItem(
+                            child: Text(snap.id),
+                            value: snap.id,
+                          ));
+                        }
+                        return DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(30.0),
+                              ),
+                            ),
+                            filled: true,
+                          ),
+                          items: schoolitem,
+                          hint: Text(
+                            "School(optional)",
+                          ),
+                          onChanged: (selecetedvalue) {
+                            setState(() {
+                              schoolSelected = selecetedvalue;
+                            });
+                          },
+                          value: schoolSelected,
+                        );
+                      }
+                    },
+                  ),
+
+                  // End of school
+                  SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(30.0),
+                          ),
+                        ),
+                        filled: true,
+                      ),
+                      items: classno.map((value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                          ),
+                        );
+                      }).toList(),
+                      hint: Text(
+                        "Class",
+                      ),
+                      onChanged: (selecetedvalue) {
+                        setState(() {
+                          classSelected = selecetedvalue;
+                        });
+                      },
+                      value: classSelected),
                   // TextFormField(
-                  //   obscureText: _obscure,
-                  //   validator: (value) =>
-                  //       value != _password ? 'Password not matching' : null,
+                  //   keyboardType: TextInputType.number,
+                  //   onSaved: (val) => _rollno = val,
                   //   decoration: InputDecoration(
-                  //     suffixIcon: GestureDetector(
-                  //       child: _obscure == true
-                  //           ? Icon(Icons.visibility, color: secondaryColor)
-                  //           : Icon(Icons.visibility_off, color: secondaryColor),
-                  //       onTap: () {
-                  //         setState(() {
-                  //           _obscure = !_obscure;
-                  //         });
-                  //       },
-                  //     ),
-                  //     labelText: 'Confirm Password',
+                  //     labelText: 'Class',
                   //     labelStyle: TextStyle(
                   //         fontWeight: FontWeight.bold, color: Colors.grey),
                   //     border: OutlineInputBorder(
@@ -168,22 +257,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   //     ),
                   //   ),
                   // ),
-                  SizedBox(
-                    height: 10,
-                  ),
-//dropdown for class
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    onSaved: (val) => _rollno = val,
-                    decoration: InputDecoration(
-                      labelText: 'Class',
-                      labelStyle: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.grey),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -212,22 +285,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             _submit();
                           },
                           child: button(context, 'Sign Up')),
-                  // MaterialButton(
-                  //   height: 50,
-                  //   minWidth: MediaQuery.of(context).size.width,
-                  //   color: Colors.blue,
-                  //   onPressed: () async {
-                  //     _submit();
-                  //   },
-                  //   child: Text(
-                  //     'SIGN UP',
-                  //     style: TextStyle(color: Colors.white),
-                  //   ),
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: new BorderRadius.circular(30),
-                  //   ),
-                  // ),
-
                   SizedBox(
                     height: 10,
                   ),
@@ -263,7 +320,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(
                     height: 20,
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
