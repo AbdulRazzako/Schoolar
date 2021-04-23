@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolar/models/user.dart';
-import 'package:schoolar/screens/homepage.dart';
+import 'package:schoolar/screens/studentpages/pageview.dart';
 import 'package:schoolar/service/auth.dart';
 import 'package:schoolar/service/database.dart';
 import 'package:schoolar/widgets/loader.dart';
@@ -78,7 +78,7 @@ class Home extends StatelessWidget {
                             ],
                             child: MaterialApp(
                                 debugShowCheckedModeBanner: false,
-                                home: HomeMain(
+                                home: StudentPageView(
                                   uid: user.uid,
                                 )),
                           );

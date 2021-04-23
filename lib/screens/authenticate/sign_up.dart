@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolar/config/config.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:schoolar/screens/authenticate/sign_in.dart';
 import 'package:schoolar/service/auth.dart';
 
@@ -296,27 +295,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Text(
-                      'Sign up with',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SignInButton(
-                    Buttons.Google,
-                    onPressed: () {},
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    padding: EdgeInsets.all(5),
-                  ),
+
                   SizedBox(
                     height: 20,
                   ),
