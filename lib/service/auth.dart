@@ -15,7 +15,7 @@ const String teacher = 'teacher';
 
 abstract class AuthBase {
   Stream<MyUser> get user;
-  Future<MyUser> verifyPhone(BuildContext context, String phone);
+  verifyPhone(BuildContext context, String phone);
   Future<void> signOut();
 }
 
@@ -51,7 +51,11 @@ class AuthService extends AuthBase {
         user = userCredential.user;
 
         await UserDatabaseService(uid: user.uid).googleUser(
-            name: user.displayName, email: user.email, role: student);
+            name: user.displayName,
+            email: user.email,
+            role: student,
+            photoUrl: user.photoURL,
+            phoneno: user.phoneNumber);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           // handle the error here
@@ -90,7 +94,7 @@ class AuthService extends AuthBase {
     return _auth.authStateChanges().map(_userFromFirebase);
   }
 
-  Future<MyUser> verifyPhone(BuildContext context, String phone) async {
+  verifyPhone(BuildContext context, String phone) async {
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) => Home()), (route) => false);
@@ -172,7 +176,8 @@ class AuthService extends AuthBase {
               },
             ),
             actions: <Widget>[
-              FlatButton(
+              MaterialButton(
+                  elevation: 0,
                   onPressed: () async {
                     signInWithOtp(sms, verificationID, phone);
                     Navigator.pushAndRemoveUntil(
@@ -256,6 +261,72 @@ class AuthService extends AuthBase {
     }
   }
 
+  //Register teacher
+  Future registerTeacherWithEmailPass({
+    username,
+    email,
+    password,
+    school,
+    classno,
+  }) async {
+    const String role = teacher;
+    try {
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User user = result.user;
+      await UserDatabaseService(uid: user.uid).newTeacherDetails(
+          username: username,
+          email: email,
+          school: school,
+          classno: classno,
+          role: role);
+      return AuthService(role: role)._userFromFirebase(user);
+    } catch (error) {
+      switch (error.code) {
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+          {
+            errorMsg = "This email is already in use.";
+            // _showErrorSnack(errorMsg, _scafKey);
+            BotToast.showText(
+                text: '$errorMsg',
+                textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                duration: Duration(seconds: 10),
+                animationDuration: Duration(seconds: 2),
+                clickClose: true);
+          }
+          break;
+        case "ERROR_INVALID_EMAIL":
+          {
+            errorMsg = "The email address is badly formatted";
+            BotToast.showText(
+                text: '$errorMsg',
+                textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                duration: Duration(seconds: 10),
+                animationDuration: Duration(seconds: 2),
+                clickClose: true);
+          }
+          break;
+        case "ERROR_WEAK_PASSWORD":
+          {
+            errorMsg = "The password must be 6 characters long or more.";
+            BotToast.showText(
+                text: '$errorMsg',
+                textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                duration: Duration(seconds: 10),
+                animationDuration: Duration(seconds: 2),
+                clickClose: true);
+          }
+          break;
+        default:
+          {
+            errorMsg = "";
+          }
+      }
+      print(error.toString());
+      return null;
+    }
+  }
+
   Future sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
@@ -276,7 +347,11 @@ class AuthService extends AuthBase {
       User user = result.user;
       dynamic role = await UserDatabaseService(uid: user.uid).getRole();
       print(role);
-      await UserDatabaseService(uid: user.uid).updateUserDetails();
+      if (role == student) {
+        await UserDatabaseService(uid: user.uid).updateStudentDetails();
+      } else if (role == teacher) {
+        await UserDatabaseService(uid: user.uid).updateTeacherDetails();
+      }
       return AuthService(role: role)._userFromFirebase(user);
     } catch (error) {
       switch (error.code) {

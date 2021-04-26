@@ -26,13 +26,39 @@ class UserDatabaseService {
     }, SetOptions(merge: true));
   }
 
-  Future googleUser({String name, String email, String role}) async {
+  //new teacher entry
+  Future newTeacherDetails(
+      {String username,
+      String email,
+      String school,
+      String classno,
+      String rollno,
+      String role}) async {
+    return _db.collection("teacher").doc(uid).set({
+      "uid": uid,
+      "lastSignIn": DateTime.now(),
+      "name": username,
+      "email": email,
+      "school": school,
+      "class": classno,
+      "role": role,
+    }, SetOptions(merge: true));
+  }
+
+  Future googleUser(
+      {String name,
+      String email,
+      String role,
+      String photoUrl,
+      String phoneno}) async {
     return _db.collection("student").doc(uid).set({
       "uid": uid,
       "lastSignIn": DateTime.now(),
       "name": name,
       "email": email,
-      "role": role
+      "role": role,
+      "url": photoUrl,
+      "phoneNo": phoneno,
     }, SetOptions(merge: true));
   }
 
@@ -81,8 +107,18 @@ class UserDatabaseService {
     );
   }
 
-  Future updateUserDetails() async {
+  Future updateStudentDetails() async {
     return _db.collection("student").doc(uid).set(
+        {
+          "uid": uid,
+          "lastSignIn": DateTime.now(),
+        },
+        // merge: true
+        SetOptions(merge: true));
+  }
+
+  Future updateTeacherDetails() async {
+    return _db.collection("teacher").doc(uid).set(
         {
           "uid": uid,
           "lastSignIn": DateTime.now(),

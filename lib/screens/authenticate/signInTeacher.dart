@@ -3,17 +3,18 @@ import 'package:schoolar/config/config.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:schoolar/screens/authenticate/forgetpass.dart';
 import 'package:schoolar/screens/authenticate/optlogin.dart';
-import 'package:schoolar/screens/authenticate/sign_up.dart';
+import 'package:schoolar/screens/authenticate/signUpTeacher.dart';
+// import 'package:schoolar/screens/authenticate/sign_up.dart';
 import 'package:schoolar/service/auth.dart';
 
 import '../../home.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInTeacherScreen extends StatefulWidget {
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  _SignInTeacherScreenState createState() => _SignInTeacherScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInTeacherScreenState extends State<SignInTeacherScreen> {
   // String _pass;
 
   final _formKey = GlobalKey<FormState>();
@@ -232,7 +233,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => SignUpScreen()),
+                            MaterialPageRoute(
+                                builder: (_) => SignUpTeacherScreen()),
                           );
                         },
                         child: new Text(

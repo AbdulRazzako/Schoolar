@@ -61,6 +61,7 @@ class _StudentPageViewState extends State<StudentPageView> {
       ),
       bottomNavigationBar: CupertinoTabBar(
         currentIndex: getPageIndex,
+        backgroundColor: primaryColor,
         onTap: onTapChangePage,
         activeColor: secondaryColor,
         inactiveColor: Colors.grey,

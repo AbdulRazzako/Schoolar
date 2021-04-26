@@ -83,6 +83,22 @@ class Home extends StatelessWidget {
                                 )),
                           );
                         }
+                        if (snapshot.data == 'teacher') {
+                          return MultiProvider(
+                            providers: [
+                              StreamProvider<UserData>.value(
+                                value:
+                                    UserDatabaseService(uid: user.uid).userData,
+                                initialData: null,
+                              ),
+                            ],
+                            child: MaterialApp(
+                                debugShowCheckedModeBanner: false,
+                                home: StudentPageView(
+                                  uid: user.uid,
+                                )),
+                          );
+                        }
                       }
                   }
                   return Home();

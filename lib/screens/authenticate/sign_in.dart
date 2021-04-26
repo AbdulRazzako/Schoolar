@@ -3,6 +3,7 @@ import 'package:schoolar/config/config.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:schoolar/screens/authenticate/forgetpass.dart';
 import 'package:schoolar/screens/authenticate/optlogin.dart';
+import 'package:schoolar/screens/authenticate/signInTeacher.dart';
 import 'package:schoolar/screens/authenticate/sign_up.dart';
 import 'package:schoolar/service/auth.dart';
 
@@ -23,6 +24,7 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _obscure = true;
   final AuthService _auth = AuthService();
   void _submit() async {
+    if (!mounted) return;
     setState(() {
       isSubmitting = true;
     });
@@ -32,17 +34,20 @@ class _SignInScreenState extends State<SignInScreen> {
           await _auth.loginWithEmailPass(_email, _password, _scafKey);
       if (result == null) {
         print('error signing in');
+        if (!mounted) return;
         setState(() {
           isSubmitting = false;
         });
       } else {
         print('signed in');
+        if (!mounted) return;
         setState(() {
           isSubmitting = false;
         });
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (_) => Home()), (route) => false);
       }
+      if (!mounted) return;
       setState(() {
         isSubmitting = false;
       });
@@ -68,12 +73,28 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 60,
                   ),
                   Center(
-                    child: Text(
-                      "LOGIN",
-                      style: TextStyle(
-                          color: secondaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "LOGIN",
+                          style: TextStyle(
+                              color: secondaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30),
+                        ),
+                        MaterialButton(
+                          color: Colors.pink,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (_) => SignInTeacherScreen()),
+                            );
+                          },
+                          child: Text("login as teacher"),
+                        )
+                      ],
                     ),
                   ),
                   SizedBox(

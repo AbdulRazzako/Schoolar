@@ -7,6 +7,7 @@ AppBar header(contex,
     iconTheme: IconThemeData(
       color: secondaryColor,
     ),
+    elevation: 0,
     automaticallyImplyLeading: disappearedBackButton ? false : true,
     title: Text(
       isAppTitle ? "SCHOOLAR" : strTitle,

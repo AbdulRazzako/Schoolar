@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
         builder: BotToastInit(),
         navigatorObservers: [BotToastNavigatorObserver()],
         theme: ThemeData(
-          fontFamily: 'Product Sans',
-          primaryColor: secondaryColor,
-        ),
+            fontFamily: 'Product Sans',
+            primaryColor: secondaryColor,
+            backgroundColor: primaryColor),
         home: Home(),
       ),
     );
