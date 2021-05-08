@@ -105,11 +105,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     validator: (value) =>
                         !value.contains('@') ? "Invalid Email" : null,
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(20),
                       labelText: 'Email',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              BorderSide(color: secondaryColor, width: 10)),
+                              BorderSide(color: secondaryColor, width: 1)),
                     ),
                   ),
                   SizedBox(

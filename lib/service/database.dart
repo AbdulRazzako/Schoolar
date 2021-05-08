@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolar/models/user.dart';
 
@@ -13,7 +15,8 @@ class UserDatabaseService {
       String school,
       String classno,
       String rollno,
-      String role}) async {
+      String role,
+      String photourl}) async {
     return _db.collection("student").doc(uid).set({
       "uid": uid,
       "lastSignIn": DateTime.now(),
@@ -23,6 +26,7 @@ class UserDatabaseService {
       "class": classno,
       "rollNo": rollno,
       "role": role,
+      "photourl": photourl,
     }, SetOptions(merge: true));
   }
 
@@ -33,7 +37,8 @@ class UserDatabaseService {
       String school,
       String classno,
       String rollno,
-      String role}) async {
+      String role,
+      String photourl}) async {
     return _db.collection("teacher").doc(uid).set({
       "uid": uid,
       "lastSignIn": DateTime.now(),
@@ -42,6 +47,7 @@ class UserDatabaseService {
       "school": school,
       "class": classno,
       "role": role,
+      "photourl": photourl
     }, SetOptions(merge: true));
   }
 
@@ -57,7 +63,7 @@ class UserDatabaseService {
       "name": name,
       "email": email,
       "role": role,
-      "url": photoUrl,
+      "photourl": photoUrl,
       "phoneNo": phoneno,
     }, SetOptions(merge: true));
   }
@@ -91,9 +97,17 @@ class UserDatabaseService {
     }
   }
 
-  Stream<UserData> get userData {
+  Stream<UserData> get studentData {
     return FirebaseFirestore.instance
-        .collection('users')
+        .collection('student')
+        .doc(uid)
+        .snapshots()
+        .map(_userData);
+  }
+
+  Stream<UserData> get teacherData {
+    return FirebaseFirestore.instance
+        .collection('teacher')
         .doc(uid)
         .snapshots()
         .map(_userData);
@@ -103,7 +117,11 @@ class UserDatabaseService {
     return UserData(
       email: documentSnapshot.data()['email'] ?? '',
       uid: uid,
-      username: documentSnapshot.data()['username'] ?? '',
+      name: documentSnapshot.data()['name'] ?? '',
+      school: documentSnapshot.data()['school'],
+      clas: documentSnapshot.data()['class'],
+      rollno: documentSnapshot.data()['rollno'],
+      photourl: documentSnapshot.data()['photourl'],
     );
   }
 
@@ -125,5 +143,22 @@ class UserDatabaseService {
         },
         // merge: true
         SetOptions(merge: true));
+  }
+
+  Future savePostInfoToFireStore(
+      {String uid,
+      String url,
+      String description,
+      String postid,
+      String username}) async {
+    _db.collection('teacherposts').doc(postid).set({
+      "post Id": postid,
+      "ownerId": uid,
+      'timestamp': Timestamp.now(),
+      'likes': {},
+      'username': username,
+      'url': url,
+      'description': description,
+    });
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolar/models/user.dart';
 import 'package:schoolar/screens/studentpages/pageview.dart';
+import 'package:schoolar/screens/teacherpages/teacherpageview.dart';
 import 'package:schoolar/service/auth.dart';
 import 'package:schoolar/service/database.dart';
 import 'package:schoolar/widgets/loader.dart';
@@ -71,8 +72,8 @@ class Home extends StatelessWidget {
                           return MultiProvider(
                             providers: [
                               StreamProvider<UserData>.value(
-                                value:
-                                    UserDatabaseService(uid: user.uid).userData,
+                                value: UserDatabaseService(uid: user.uid)
+                                    .studentData,
                                 initialData: null,
                               ),
                             ],
@@ -87,14 +88,14 @@ class Home extends StatelessWidget {
                           return MultiProvider(
                             providers: [
                               StreamProvider<UserData>.value(
-                                value:
-                                    UserDatabaseService(uid: user.uid).userData,
+                                value: UserDatabaseService(uid: user.uid)
+                                    .teacherData,
                                 initialData: null,
                               ),
                             ],
                             child: MaterialApp(
                                 debugShowCheckedModeBanner: false,
-                                home: StudentPageView(
+                                home: TeacherPageView(
                                   uid: user.uid,
                                 )),
                           );
